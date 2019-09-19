@@ -1,0 +1,1 @@
+VUE_APP_API_ROOT= http://study_api.liuhu66.cn
