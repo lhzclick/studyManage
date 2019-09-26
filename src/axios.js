@@ -38,6 +38,11 @@ service.interceptors.response.use(
         endLoading()
         if (response.status == 200) {
             if(!response.data.err){
+               // Message({
+               //     showClose: true,
+               //     message: response.data.msg,
+                //    type: 'success'
+              //  })
                 return response.data
             }else{
                 Message({
