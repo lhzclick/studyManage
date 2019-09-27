@@ -4,14 +4,9 @@
       <el-col :span="24">
         <el-card shadow="hover" class="mgb20">
           <el-button class="addData" type="primary"  v-popover:popover>新增</el-button>
-          <el-table :data="list" style="width: 100%"  border>
-            <el-table-column prop="id" label="id">
-              <!-- <template slot-scope="scope" >
-                <div>
-                  <el-input v-show="!scope.row.m" v-model="scope.row.id"></el-input>
-                  <span v-show="scope.row.m">{{scope.row.id}}</span>
-                </div>
-              </template> -->
+          <el-button type="primary" @click="excelDownLoad('#table','分数录入')">文件导出</el-button>
+          <el-table :data="list" style="width: 100%"  border  id='#table'>
+            <el-table-column prop="index" label="id">
             </el-table-column>
             <el-table-column prop="name" label="姓名">
               <template slot-scope="scope" >
@@ -62,7 +57,6 @@
             </el-table-column>
             <el-table-column label="操作" width="200">
               <template slot-scope="scope" >
-               
                 <span style="color:#2367CD" >
                   <el-button size="small" @click.native.prevent="edit(scope.$index, scope.row)" type="success" v-show="scope.row.m&&scope.row.l" plain>编辑</el-button>
                   <el-button size="small" @click.native.prevent="edit_success(scope.$index, scope.row)" type="success"  v-show="!scope.row.m&&scope.row.l" plain>保存</el-button>
@@ -130,8 +124,24 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row>
-      
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-card shadow="hover" class="mgb20">
+          34343434
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card shadow="hover" class="mgb20">
+          34343434
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-card shadow="hover" class="mgb20">
+          34343434
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -181,6 +191,10 @@ export default {
         let _data = res.data.list;
         this.list = _data;
         this.total = res.data.total;
+        //排序
+        this.list.forEach((item,index)=>{
+        item.index = (this.pageNo-1)*this.pageSize+index+1
+        });
       });
     },
     //新增数据
@@ -196,7 +210,6 @@ export default {
           type:this.input5
         }
       }).then(res => {
-        this.total = res.data.total
         this.getData()
       });
     },
@@ -218,9 +231,6 @@ export default {
                     jobId:row.jobId
                     }
                 }).then(res => {
-                  let _data = res.data.list;
-                  this.list = _data;
-                  this.total = res.data.total;
                   this.getData()
                 });
         }).catch(() => {
@@ -241,7 +251,7 @@ export default {
       this.pageNo = val
       this.getData()
     },
-    //  详情页
+    //  编辑按钮
     edit(index, row) {
       row.m = false
     },
@@ -260,11 +270,10 @@ export default {
                   type:row.type
                   }
               }).then(res => {
-                let _data = res.data.list;
-                this.list = _data;
-                this.getData()
+               
               });
     },
+    
     
   }
 };
@@ -287,7 +296,7 @@ export default {
 }
 .demo-input-suffix span{
   display: inline-block;
-  text-align: center;
+  text-align: right;
   width: 80px;
 }
 .addData{
