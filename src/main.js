@@ -11,7 +11,7 @@ import './components/common/directives';
 import "babel-polyfill";
 import axios from './axios'
 import store from './store'
-import globalTool from './globalTool'
+import excelDownLoad from './globalTool'
 
 
 Vue.config.productionTip = false
@@ -20,7 +20,7 @@ Vue.use(ElementUI, {
     size: 'small'
 });
 Vue.prototype.$axios = axios;
-Vue.use(globalTool)
+Vue.prototype.$excelDownLoad = excelDownLoad;
 
 const i18n = new VueI18n({
     locale: 'zh',

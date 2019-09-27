@@ -4,8 +4,8 @@
       <el-col :span="24">
         <el-card shadow="hover" class="mgb20">
           <el-button class="addData" type="primary"  v-popover:popover>新增</el-button>
-          <el-button type="primary" @click="excelDownLoad('#table','分数录入')">文件导出</el-button>
-          <el-table :data="list" style="width: 100%"  border  id='#table'>
+          <el-button type="primary" @click="$excelDownLoad('#table','分数录入')">文件导出</el-button>
+          <el-table :data="list" style="width: 100%"  border id="table" >
             <el-table-column prop="index" label="id">
             </el-table-column>
             <el-table-column prop="name" label="姓名">
@@ -121,25 +121,6 @@
                         <el-button @click="visible = false">取消</el-button>
                       </div>
                 </el-popover>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-card shadow="hover" class="mgb20">
-          34343434
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card shadow="hover" class="mgb20">
-          34343434
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-card shadow="hover" class="mgb20">
-          34343434
         </el-card>
       </el-col>
     </el-row>
