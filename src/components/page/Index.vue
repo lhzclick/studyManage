@@ -3,8 +3,20 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-card shadow="hover" class="mgb20">
-          <el-button class="addData" type="primary"  v-popover:popover>新增</el-button>
-          <el-button type="primary" @click="$excelDownLoad('#table','分数录入')">文件导出</el-button>
+          <div class="tool">
+            <el-button class="addData" type="primary"  v-popover:popover>新增</el-button>
+            <el-button type="primary" @click="$excelDownLoad('#table','分数录入')">文件导出</el-button>
+            <el-upload
+              class="upload"
+              action="demo"
+              :show-file-list="false"
+              :http-request="upload">
+              <el-button size="small" type="primary">上传头像</el-button>
+            </el-upload>
+          </div>
+
+
+          <!-- <el-button @click="uploadImg()" size="small" type="primary">上传用户头像</el-button> -->
           <el-table :data="list" style="width: 100%"  border id="table" >
             <el-table-column prop="index" label="id">
             </el-table-column>
@@ -129,6 +141,7 @@
 <script>
 import tool from "lh-tool"
 import moment from "moment"
+import { mapMutations } from 'vuex'
 export default {
   name: "index",
   data() {
@@ -151,13 +164,18 @@ export default {
       }
     },
   components: {},
-  computed: {},
+  computed: {
+    
+  },
   created() {
     this.getData();
+  },
+  mounted(){
   },
   activated() {},
   deactivated() {},
   methods: {
+    ...mapMutations(['changeUrl']),
     //获取数据
     getData() {
       this.$axios({
@@ -255,13 +273,28 @@ export default {
               });
     },
     
+    // 用户头像上传
+    upload(file){
+      // console.log(file)
+      let param = new FormData()
+      param.append('file',file.file)
+      param.append('userName',localStorage.ms_username)
+      this.$axios({
+        method: "post",
+        url: "/uploadUser",
+        data: param
+      }).then(res => {
+        localStorage.setItem("user_url", res.data.filename)
+        this.changeUrl(res.data.filename)
+      });
+    }
     
   }
 };
 </script>
 
 
-<style scoped>
+<style>
 .el-row {
   margin-bottom: 20px;
 };
@@ -281,10 +314,31 @@ export default {
   width: 80px;
 }
 .addData{
-  margin-bottom:20px;
+  /* margin-bottom:20px; */
 }
 .el-pagination{
   text-align: right;
   padding-top: 20px;
 }
+
+
+/* 上传样式修改 */
+.upload{
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: bottom;
+  height: auto;
+}
+.upload .el-upload--text{
+  vertical-align: bottom;
+  display: inline-block;
+  border: none;
+  height: auto;
+  width: 100px;
+}
+.tool{
+  /* height: 40px; */
+  margin-bottom: 20px;
+}
+
 </style>

@@ -69,6 +69,7 @@ export default {
       }).then(res => {
             localStorage.setItem("ms_username", this.ruleForm.username)
             localStorage.setItem("token", res.data.token)
+            localStorage.setItem("user_url", res.data.user_url)
             this.$router.push("/")
       });
     }

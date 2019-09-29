@@ -26,6 +26,9 @@ service.interceptors.request.use(config => {
     if(config.url.indexOf('login')==-1){
         config.headers.common['token'] = localStorage.token
     }
+    if(config.url.indexOf('upload')!=-1){
+        config.headers.common['Content-Type'] = 'multipart/form-data'
+    }
     return config
 }, error => { //请求错误处理   
     console.log(error)
@@ -59,7 +62,8 @@ service.interceptors.response.use(
             })
         }
     },
-    error => { //响应错误处理console.log('error')        
+    error => { //响应错误处理console.log('error')      
+    console.log(error)  
         let text = JSON.parse(JSON.stringify(error)).response.status === 404 ?
             '404' :
             '网络异常，请重试'
