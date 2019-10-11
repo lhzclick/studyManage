@@ -29,6 +29,7 @@
 
 <script>
 import md5 from "md5";
+import { mapMutations } from 'vuex'
 export default {
   data: function() {
     return {
@@ -48,6 +49,7 @@ export default {
     
   },
   methods: {
+    ...mapMutations(['changeUrl']),
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -59,6 +61,7 @@ export default {
       });
     },
     getData() {
+      // console.log(md5(this.ruleForm.password))
       this.$axios({
         method: "post",
         url: "/login",
@@ -70,6 +73,7 @@ export default {
             localStorage.setItem("ms_username", this.ruleForm.username)
             localStorage.setItem("token", res.data.token)
             localStorage.setItem("user_url", res.data.user_url)
+            this.changeUrl(res.data.user_url)
             this.$router.push("/")
       });
     }
