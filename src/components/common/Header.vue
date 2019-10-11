@@ -99,7 +99,8 @@
                     }
                 }
                 this.fullscreen = !this.fullscreen;
-            }
+            },
+           
         },
         mounted(){
             if(document.body.clientWidth < 1500){
@@ -108,8 +109,6 @@
         },
         watch: {
             user_url(val) {
-                // this.value = this.demo;
-                console.log(val)
             }
         }
     }

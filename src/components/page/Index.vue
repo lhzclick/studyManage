@@ -284,7 +284,7 @@ export default {
         url: "/uploadUser",
         data: param
       }).then(res => {
-        localStorage.setItem("user_url", res.data.filename)
+        localStorage.setItem("user_url", res.data.filename);
         this.changeUrl(res.data.filename)
       });
     }

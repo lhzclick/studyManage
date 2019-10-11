@@ -71,6 +71,7 @@ export default {
             localStorage.setItem("token", res.data.token)
             localStorage.setItem("user_url", res.data.user_url)
             this.$router.push("/")
+            console.log(res)
       });
     }
   }
