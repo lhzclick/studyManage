@@ -43,6 +43,11 @@
                         index: 'index',
                         title: '系统首页'
                     },
+                    {
+                        icon: 'el-icon-menu',
+                        index: 'score',
+                        title: '成绩统计'
+                    },
                     // {
                     //     icon: 'el-icon-rank',
                     //     index: '6',

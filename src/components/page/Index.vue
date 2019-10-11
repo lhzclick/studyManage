@@ -5,6 +5,7 @@
         <el-card shadow="hover" class="mgb20">
           <div class="tool">
             <el-button class="addData" type="primary"  v-popover:popover>新增</el-button>
+            <el-button @click="aaa" type="primary">下拉框</el-button>
             <el-button type="primary" @click="$excelDownLoad('#table','分数录入')">文件导出</el-button>
             <el-upload
               class="upload"
@@ -44,7 +45,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="score" label="分数">
+            <el-table-column prop="score" label="分数(语文)">
               <template slot-scope="scope" >
                 <div>
                   <el-input v-show="!scope.row.m" v-model="scope.row.score"></el-input>
@@ -52,7 +53,47 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="type" label="科目类型">
+            <el-table-column prop="score" label="分数(数学)">
+              <template slot-scope="scope" >
+                <div>
+                  <el-input v-show="!scope.row.m" v-model="scope.row.score"></el-input>
+                  <span v-show="scope.row.m">{{scope.row.score}}</span>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="score" label="分数(英语)">
+              <template slot-scope="scope" >
+                <div>
+                  <el-input v-show="!scope.row.m" v-model="scope.row.score"></el-input>
+                  <span v-show="scope.row.m">{{scope.row.score}}</span>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="score" label="分数(物理)">
+              <template slot-scope="scope" >
+                <div>
+                  <el-input v-show="!scope.row.m" v-model="scope.row.score"></el-input>
+                  <span v-show="scope.row.m">{{scope.row.score}}</span>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="score" label="分数(化学)">
+              <template slot-scope="scope" >
+                <div>
+                  <el-input v-show="!scope.row.m" v-model="scope.row.score"></el-input>
+                  <span v-show="scope.row.m">{{scope.row.score}}</span>
+                </div>
+              </template>
+            </el-table-column>
+             <el-table-column prop="score" label="分数(生物)">
+              <template slot-scope="scope" >
+                <div>
+                  <el-input v-show="!scope.row.m" v-model="scope.row.score"></el-input>
+                  <span v-show="scope.row.m">{{scope.row.score}}</span>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="type" label="测试类型">
               <template slot-scope="scope" >
                 <div>
                   <el-input v-show="!scope.row.m" v-model="scope.row.type"></el-input>
@@ -109,24 +150,67 @@
                       </div>
                       <div class="demo-input-suffix">
                         <span>性别：</span>
-                        <el-input
-                          placeholder="请输入性别"
-                          v-model="input3">
-                        </el-input>
+                        <el-select v-model="value1" placeholder="请选择性别">
+                              <el-option
+                                v-for="item in sexData"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                              </el-option>
+                            </el-select>
                       </div>
                       <div class="demo-input-suffix">
-                       <span>分数：</span>
+                           <span>语文：</span>
+                           <el-input
+                              placeholder="请输入分数"
+                              v-model="input3">
+                            </el-input>
+                      </div>
+                      <div class="demo-input-suffix">
+                        <span>数学：</span>
                         <el-input
                           placeholder="请输入分数"
                           v-model="input4">
                         </el-input>
                       </div>
                       <div class="demo-input-suffix">
-                        <span>科目类型：</span>
+                        <span>英语：</span>
                         <el-input
-                          placeholder="请输入科目类型"
+                          placeholder="请输入分数"
                           v-model="input5">
                         </el-input>
+                      </div>
+                      <div class="demo-input-suffix">
+                        <span>物理：</span>
+                        <el-input
+                          placeholder="请输入分数"
+                          v-model="input6">
+                        </el-input>
+                      </div>
+                      <div class="demo-input-suffix">
+                        <span>化学：</span>
+                        <el-input
+                          placeholder="请输入分数"
+                          v-model="input7">
+                        </el-input>
+                      </div>
+                      <div class="demo-input-suffix">
+                        <span>生物：</span>
+                        <el-input
+                          placeholder="请输入分数"
+                          v-model="input8">
+                        </el-input>
+                      </div>
+                      <div class="demo-input-suffix">
+                        <span>测试类型：</span>
+                            <el-select v-model="value2" placeholder="请选择科目类型">
+                              <el-option
+                                v-for="item in testData"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                              </el-option>
+                            </el-select>
                       </div>
                       <div class='close-btn'>
                         <el-button type="primary" @click="addData(),visible = false" >确定</el-button>
@@ -155,7 +239,21 @@ export default {
       input3: '',
       input4: '',
       input5: '',
+      input6: '',
+      input7: '',
+      input8: '',
       visible:false,
+        testData:[],
+        sexData: [{
+          value: '选项1',
+          label: '男'
+        }, {
+          value: '选项2',
+          label: '女'
+        }
+        ],
+        value1: '',
+        value2: ''
     };
   },
   filters: {
@@ -195,19 +293,34 @@ export default {
         item.index = (this.pageNo-1)*this.pageSize+index+1
         });
       });
+       this.$axios({
+            url:'/subjectType',
+            method:'get',
+            data:{}
+          }).then(res => {
+            res.map((item,i)=>{item.m =true,item.l = true});
+            this.testData=res.data;
+            console.log(this.testData)
+            console.log(res)
+          });
     },
     //新增数据
     addData() {
       this.$axios({
-        method: "post",
-        url: "/addScore",
-        data: {
-          name:this.input1,
-          age:this.input2,
-          sex:this.input3,
-          score:this.input4,
-          type:this.input5
-        }
+         url:'/addScore',
+          method:'post',
+          data:{
+              name:this.input1,
+              age:this.input2,
+              sex:this.formatSelect(this.sexData,this.value1),
+              score_Chinese:this.input3,
+              score_Mathematics:this.input4,
+              score_English:this.input5,
+              score_Physics:this.input6,
+              score_Chemistry:this.input7,
+              score_Biology:this.input8,
+              type:this.formatSelect(this.testData,this.value2),
+          }
       }).then(res => {
         this.getData()
       });
@@ -272,6 +385,16 @@ export default {
                
               });
     },
+    //下拉列表数据
+    aaa(){
+          this.$axios({
+               url:'/subjectType',
+                method:'get',
+                data:{}
+              }).then(res => {
+               console.log(res)
+              });
+    },
     
     // 用户头像上传
     upload(file){
@@ -287,6 +410,17 @@ export default {
         localStorage.setItem("user_url", res.data.filename);
         this.changeUrl(res.data.filename)
       });
+    },
+
+    // 格式化select
+    formatSelect(arr,v){
+      let str = ''
+      arr.map((item,i)=>{
+        if(item.value==v){
+          str = item.label
+        }
+      })
+      return str
     }
     
   }

@@ -9,6 +9,7 @@ export default new Vuex.Store({
   mutations: {
     changeUrl(state,url){
       state.user_url = url
+      console.log(url)
     }
   },
   actions: {
