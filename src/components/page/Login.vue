@@ -70,7 +70,7 @@ export default {
           password:md5(this.ruleForm.password)
         }
       }).then(res => {
-            localStorage.setItem("ms_username", this.ruleForm.username)
+            localStorage.setItem("ms_username", res.data.userName)
             localStorage.setItem("token", res.data.token)
             localStorage.setItem("user_url", res.data.user_url)
             this.changeUrl(res.data.user_url)
