@@ -3,7 +3,7 @@ import qs from "qs"
 import { Message ,Loading} from 'element-ui'
 //  创建axios实例
 const service = axios.create({
-    baseURL: process.env.VUE_APP_API_ROOT, // api的base_url
+    baseURL: '/api', // api的base_url
     timeout: 5000 // 请求超时时间
 })
 
@@ -23,12 +23,12 @@ function endLoading() {    //使用Element loading-close 方法
 //  request拦截器
 service.interceptors.request.use(config => {
     startLoading() 
-    config.method === 'post' ? config.data = qs.stringify({
-        ...config.data
-    }) : config.params = {
-        ...config.params
+    if(config.url.indexOf('login')==-1){
+        config.headers.common['token'] = localStorage.token
     }
-    // config.headers.common['Content-Type'] = 'application/json'            
+    if(config.url.indexOf('upload')!=-1){
+        config.headers.common['Content-Type'] = 'multipart/form-data'
+    }
     return config
 }, error => { //请求错误处理   
     console.log(error)
@@ -41,6 +41,11 @@ service.interceptors.response.use(
         endLoading()
         if (response.status == 200) {
             if(!response.data.err){
+               // Message({
+               //     showClose: true,
+               //     message: response.data.msg,
+                //    type: 'success'
+              //  })
                 return response.data
             }else{
                 Message({
@@ -57,7 +62,8 @@ service.interceptors.response.use(
             })
         }
     },
-    error => { //响应错误处理console.log('error')        
+    error => { //响应错误处理console.log('error')      
+    console.log(error)  
         let text = JSON.parse(JSON.stringify(error)).response.status === 404 ?
             '404' :
             '网络异常，请重试'
