@@ -39,11 +39,9 @@ export default {
     getData() {
       this.$axios({
         method: "post",
-        url: "/getScore",
+        url: "/getStatistics",
         data: {
-          pageNo:2,
-					pageSize:3,
-					type:'数学一单元测试'
+          
         }
       }).then(res => {
         console.log(res);
